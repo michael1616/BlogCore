@@ -1,0 +1,71 @@
+﻿@model BlogCore.Models.ViewModels.ArticleViewModel
+
+@{
+    ViewData["Title"] = "Create Article";
+}
+
+<br />
+<br />
+<h3 class="text-center text-primary">Create new article</h3>
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div class="row px-2 offset-1 border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-10 offset-1 mt-4">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Article.Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Article.Name" class="form-control" placeholder="Enter the article name" />
+                    <span asp-validation-for="Article.Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class="col-4">
+                    <label asp-for="Article.Description"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="Article.Description" class="form-control" style="height:300px;"></textarea>
+                    <span asp-validation-for="Article.Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class="col-4">
+                    <label asp-for="Article.CategoryId"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(m => m.Article.CategoryId, Model.ListCategories, "-Please select the category-", new {@class = "form-control"})
+                    <span asp-validation-for="Article.Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class="col-4">
+                    <label asp-for="Article.ImageUrl"></label>
+                </div>
+                <div class="col-8">
+                    <input type="file" name="files" id="uploadFile" class="form-control"/>
+                    <span asp-validation-for="Article.ImageUrl" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-8">
+                    <partial name="_ReturnCreate" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+
+    <script src="https://cdn.tiny.cloud/1/pg64hg2g4na1whxcd5nrp3vbebci7lohevo2ndje3uh7amwa/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'lists',
+            menubar: 'file edit format'
+        });
+    </script>
+}

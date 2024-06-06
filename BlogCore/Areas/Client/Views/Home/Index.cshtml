@@ -1,0 +1,39 @@
+﻿@model BlogCore.Models.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row backgroundTitle mt-1">
+    <div class="col-sm-12">
+        <h1 class="text-center text-white bg-info py-1">Last courses and tutorials</h1>
+    </div>
+</div>
+
+@if (Model.Articles.Count() > 0)
+{
+    <hr />
+    <div class="row">
+        @foreach (var item in Model.Articles.OrderByDescending(a => a.IdArticle))
+        {
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="@item.ImageUrl" class="img-thumbnail" width="100%" style="height:198px !important;">
+                    <div class="card-body">
+                        <h5 class="text-center">@item.Name</h5>
+                        <p class="text-center">@item.CreationDate</p>
+                        <div class="text-center">
+                            <a asp-action="Details" asp-route-id="@item.IdArticle" class="btn btn-success text-center" style="border-radius:2px;">
+                                More Information
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>There are not articles</p>
+}

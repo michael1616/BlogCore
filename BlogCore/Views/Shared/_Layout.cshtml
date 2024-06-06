@@ -1,0 +1,126 @@
+﻿@using BlogCore.Utilities;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BlogCore</title>
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+    <!--DataTable-->
+    <link rel="stylesheet" href="~/lib/DataTable/datatables.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/DataTable/DataTables-1.13.2/css/dataTables.bootstrap5.min.css" asp-append-version="true" />
+
+    <!--Totastr-->
+    <link rel="stylesheet" href="~/lib/toasttr/css/toastr.min.css" asp-append-version="true" />
+
+    <!--Jquery ui-->
+    <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.min.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BlogCore.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" asp-area="Client" asp-controller="Home" asp-action="Index">Blog Core</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav me-auto">
+                        @if(User.IsInRole(CNT.Managment))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" style="color: #fff !important" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Article" asp-action="Index">Articles</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Slider" asp-action="Index">Sliders</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Users</a>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <partial name="_LoginPartial" />
+            </div>
+        </nav>
+
+        @if (ViewBag.IsHome == true)
+        {
+            <partial name="_Slider" />
+        }
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - @ViewData["Message"] - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <!--Jquery-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <!--Jquery UI-->
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+
+    <!--Bootstrap-->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--DataTable-->
+    <script src="~/lib/DataTable/datatables.min.js"></script>
+
+    <!--toastr-->
+    <script src="~/lib/toasttr/js/toastr.min.js"></script>
+
+    <!--Sweetalert2-->
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!--SerializeJSON-->
+    <script src="~/lib/SerializeJSON/jquery.serializejson.js"></script>
+
+    <!--Font Awesome-->
+    <script src="https://kit.fontawesome.com/a339d0b72d.js" crossorigin="anonymous"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            var type = '@TempData["Type"]';
+            var message = '@TempData["Message"]';
+
+            if (type != null && message != null) {
+
+                switch (type) {
+                    case 'success':
+                        toastr.success(message);
+                        break;
+                    case 'error':
+                        toastr.error(message);
+                        break;
+                }
+            }
+
+        });
+
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+
+</body>
+</html>
